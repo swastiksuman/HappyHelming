@@ -8,3 +8,6 @@
 - kubectl apply -f app-deployment.yaml
 - kubectl port-forward deployment/client-deployment 8080:8080 -n default
  
+## Helm 
+- helm create myapp
+- helm install myapp myapp/ --values myapp/values.yaml

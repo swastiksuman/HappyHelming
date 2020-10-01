@@ -13,3 +13,7 @@
 - helm install myapp myapp/ --values myapp/values.yaml
 - helm del myapp -n default
 - kubectl port-forward deployment/myapp 8080:8080 -n default
+
+## Kubernetes General
+- kubectl delete --all deployments
+- kubectl delete --all namespaces

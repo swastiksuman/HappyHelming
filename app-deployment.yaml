@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,4 +17,29 @@ spec:
                                 - name: client
                                   image: swastiksuman/springboot-docker-webapp
                                   ports:
-                                        - containerPort: 8080   
+                                        - containerPort: 8080
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: client-deployment-service
+  labels:
+    app: client-deployment
+spec:
+  selector:
+    app: client-deployment
+  ports:
+    - name: http
+        port: 8080
+        target: 8080
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: client-deployment-ingress
+spec:
+  backend:
+    serviceName: client-deployment-service
+    servicePort: 8080          

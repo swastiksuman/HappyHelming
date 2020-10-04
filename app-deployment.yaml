@@ -2,44 +2,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-        name: client-deployment
+  name: webapp-deployment
+  labels:
+    app: webapp
 spec:
-        replicas: 2
-        selector:
-                matchLabels:
-                        component: web
-        template:
-                metadata:
-                        labels:
-                                component: web
-                spec:
-                        containers:
-                                - name: client
-                                  image: swastiksuman/springboot-docker-webapp
-                                  ports:
-                                        - containerPort: 8080
-
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: swastiksuman/springboot-docker-webapp
+          ports:
+            - containerPort: 8080
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: client-deployment-service
+  name: webapp
   labels:
-    app: client-deployment
+    app: webapp
 spec:
   selector:
-    app: client-deployment
+    app: webapp
   ports:
     - name: http
-        port: 8080
-        target: 8080
-
+      port: 80
+      targetPort: 8080
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1beta1
 metadata:
-  name: client-deployment-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_predictorid"
+    nginx.ingress.kubernetes.io/upstream-hash-by-subset: "true"
+    nginx.ingress.kubernetes.io/upstream-hash-by-subset-size: "3"
+  name: webapp-ingress
+  namespace: default
 spec:
   backend:
-    serviceName: client-deployment-service
-    servicePort: 8080          
+    serviceName: webapp
+    servicePort: 80

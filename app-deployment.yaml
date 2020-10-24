@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
         - name: webapp
-          image: swastiksuman/springboot-docker-webapp
+          image: swastiksuman/node-my-server
           ports:
-            - containerPort: 8080
+            - containerPort: 3001
 ---
 kind: Service
 apiVersion: v1
@@ -45,6 +45,11 @@ metadata:
   name: webapp-ingress
   namespace: default
 spec:
-  backend:
-    serviceName: webapp
-    servicePort: 80
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          serviceName: webapp
+          servicePort: 80

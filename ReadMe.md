@@ -7,8 +7,8 @@
 ## App Deploy and Access
 - kubectl apply -f app-deployment.yaml
 - kubectl port-forward deployment/client-deployment 8080:8080 -n default
- 
-## Helm 
+
+## Helm
 - helm create myapp
 - helm install myapp myapp/ --values myapp/values.yaml
 - helm del myapp -n default
@@ -18,3 +18,9 @@
 ## Kubernetes General
 - kubectl delete --all deployments
 - kubectl delete --all namespaces
+
+## Creating a Cluster IP
+kubectl run --generator=run-pod/v1 tmp-shell --rm -it --image bretfisher/netshoot -- bash
+
+## Creating a Node Port
+kubectl expose deployment/httpenv --port 8888 --name httpenv-np --type NodePort

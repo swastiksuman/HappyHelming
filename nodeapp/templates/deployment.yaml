@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  labels:
+    app: application-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-application
+  template:
+    metadata:
+      labels:
+        app: node-application
+    spec:
+      containers:
+        - name: node-app
+          image: swastiksuman/node-my-server
+          ports:
+            - name: node-app-port
+              containerPort: 3000
+              protocol: TCP

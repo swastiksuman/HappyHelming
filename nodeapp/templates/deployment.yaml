@@ -19,5 +19,5 @@ spec:
           image: swastiksuman/node-my-server
           ports:
             - name: node-app-port
-              containerPort: 3000
+              containerPort: 3001
               protocol: TCP
